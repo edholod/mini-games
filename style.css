@@ -34,3 +34,22 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 /* Readable, consistent handwritten typography on mobile */
 .game-card{gap:12px;padding:18px 13px}.game-card strong{font-size:43px}.game-card small{max-width:100%;overflow-wrap:break-word}.card-icon{flex-shrink:0}.arrow{font-family:'Caveat',cursive;font-size:34px}.brand{font-size:46px}.score strong{font-size:34px}.restart{line-height:1.05}.overlay-paper p{font-size:27px}
 @media(max-width:390px){.sheet{padding-left:35px;padding-right:14px}.game-card{gap:9px}.game-card small{font-size:23px}.card-icon{font-size:25px;padding:7px}.brand{font-size:42px}.subtitle{font-size:21px}}
+
+/* Each 2048 value has a stable ink color, without filled tile backgrounds. */
+.tile{font-weight:700;text-shadow:0 .3px currentColor}
+.tile[data-value="2"]{color:#2378b7;border-color:#2378b7}
+.tile[data-value="4"]{color:#168c77;border-color:#168c77}
+.tile[data-value="8"]{color:#d17a23;border-color:#d17a23}
+.tile[data-value="16"]{color:#a14b9c;border-color:#a14b9c}
+.tile[data-value="32"]{color:#d34d62;border-color:#d34d62}
+.tile[data-value="64"]{color:#6955b5;border-color:#6955b5}
+.tile[data-value="128"]{color:#b08413;border-color:#b08413}
+.tile[data-value="256"]{color:#168b9b;border-color:#168b9b}
+.tile[data-value="512"]{color:#ba4f37;border-color:#ba4f37}
+.tile[data-value="1024"]{color:#367c43;border-color:#367c43}
+.tile[data-value="2048"]{color:#b53e83;border-color:#b53e83}
+.tile[data-value="4096"]{color:#9a4328;border-color:#9a4328}
+.tile[data-value="8192"]{color:#613ea8;border-color:#613ea8}
+.tile[data-value="16384"]{color:#b23e3e;border-color:#b23e3e}
+.tile[data-value="32768"]{color:#176b91;border-color:#176b91}
+.tile[data-value="65536"]{color:#ad6813;border-color:#ad6813}
