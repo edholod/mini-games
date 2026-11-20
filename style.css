@@ -230,3 +230,13 @@ body:has(#flappy-screen:not(.hidden)){overflow:hidden}
 .flappy-actions{display:flex;justify-content:center;gap:12px;flex-shrink:0}.flappy-actions #flappy-flap{min-width:150px;border-color:#367c43;color:#367c43}
 .flappy-tip{text-align:center;font-size:clamp(17px,2.5dvh,23px);margin:0;flex-shrink:0}
 @media(max-height:680px){#flappy-screen .game-title{display:none}.flappy-tip{display:none}}
+
+/* A notebook is turned page by page, not scrolled like a website. */
+.sheet{position:relative;perspective:1250px;transform-style:preserve-3d}
+.page-binding{position:fixed;top:0;bottom:0;left:31px;width:9px;z-index:8;pointer-events:none;background:linear-gradient(90deg,rgba(36,71,124,.14),rgba(36,71,124,.025),transparent);border-left:1px solid rgba(36,71,124,.12)}
+.screen:not(.hidden){transform-origin:left center;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.page-turn-in{animation:notebook-next .44s cubic-bezier(.2,.65,.2,1) both}
+.page-turn-back{animation:notebook-back .44s cubic-bezier(.2,.65,.2,1) both}
+@keyframes notebook-next{0%{opacity:.3;transform:rotateY(-69deg) translateX(-10px);filter:brightness(.83)}50%{opacity:.9;filter:brightness(.94)}100%{opacity:1;transform:rotateY(0) translateX(0);filter:brightness(1)}}
+@keyframes notebook-back{0%{opacity:.25;transform:rotateY(64deg) translateX(10px);filter:brightness(.85)}50%{opacity:.9;filter:brightness(.96)}100%{opacity:1;transform:rotateY(0) translateX(0);filter:brightness(1)}}
+@media(prefers-reduced-motion:reduce){.page-turn-in,.page-turn-back{animation:none!important}}
