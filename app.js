@@ -50,7 +50,7 @@ function render(){
  for(const [key,label] of [['moves100','100 ходов'],['score10000','10 000 очков']]){const e=document.createElement('span');const got=stats.achievements.includes(key);e.className='achievement'+(got?' earned':'');e.textContent=(got?'★ ':'☆ ')+label;$('achievements').append(e)}
 }
 function canMove(){if(board.includes(0))return true;for(let r=0;r<size;r++)for(let c=0;c<size;c++){const v=board[r*size+c];if(c<size-1&&board[r*size+c+1]===v)return true;if(r<size-1&&board[(r+1)*size+c]===v)return true}return false}
-function undoMove(){if(animating||ended||!undoState)return;if(coins<UNDO_COST)return;const p=undoState;board=p.board.slice();score=p.score;won=p.won;keepPlaying=p.keepPlaying;over=p.over;moves=p.moves;elapsed=p.elapsed;startedAt=p.running?Date.now():null;coins--;saveWallet();undoState=null;save();render()}
+function undoMove(){if(animating||ended||!undoState)return;if(coins<UNDO_COST)return;const p=undoState;board=p.board.slice();score=p.score;won=p.won;keepPlaying=p.keepPlaying;over=p.over;moves=p.moves;/* Undo restores the board, not elapsed match time. */coins--;saveWallet();undoState=null;save();render()}
 function move(dir){
  if(animating||ended||over||(won&&!keepPlaying&&mode==='classic'))return;
  if(mode!=='classic'&&remaining()<=0){finish('time');return}
@@ -80,7 +80,7 @@ function move(dir){
  },duration+10);
 }
 let audio;function beep(){try{audio??=new(window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.type='sine';o.frequency.value=440;g.gain.setValueAtTime(.035,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.09);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+.09)}catch(e){}}
-function screen(which){$('home').classList.toggle('hidden',which!=='home');$('game').classList.toggle('hidden',which!=='game');if(which==='game')render()}
+function screen(which){$('home').classList.toggle('hidden',which!=='home');$('game').classList.toggle('hidden',which!=='game');if(which==='game'){if(!ended&&moves>0&&!startedAt)startedAt=Date.now();render()}}
 function changeSetting(){const n=Number($('size').value),m=$('mode').value;if(n===size&&m===mode)return;if(!confirm('Начать новую партию с выбранными настройками?')){render();return}size=n;mode=m;newGame()}
 $('open2048').onclick=()=>screen('game');$('back').onclick=()=>{if(startedAt){elapsed=timeNow();startedAt=null;save()}screen('home')};
 $('size').onchange=changeSetting;$('mode').onchange=changeSetting;
@@ -91,4 +91,4 @@ document.addEventListener('keydown',e=>{if($('game').classList.contains('hidden'
 let start=null;const area=$('board');area.addEventListener('touchstart',e=>{if(e.touches.length===1)start={x:e.touches[0].clientX,y:e.touches[0].clientY}},{passive:true});area.addEventListener('touchmove',e=>{if(start)e.preventDefault()},{passive:false});area.addEventListener('touchend',e=>{if(!start)return;const t=e.changedTouches[0],dx=t.clientX-start.x,dy=t.clientY-start.y;start=null;if(Math.max(Math.abs(dx),Math.abs(dy))<24)return;move(Math.abs(dx)>Math.abs(dy)?dx>0?'right':'left':dy>0?'down':'up')},{passive:true});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&startedAt){elapsed=timeNow();startedAt=null;save()}});
 window.addEventListener('pagehide',()=>{if(startedAt){elapsed=timeNow();startedAt=null;save()}});
-loadWallet();const savedStats=read(STATS_KEY);if(savedStats&&typeof savedStats==='object')stats={...stats,...savedStats,bestBySize:savedStats.bestBySize||{},achievements:Array.isArray(savedStats.achievements)?savedStats.achievements:[]};load();if(!stats.games){stats.games=1;updateAchievements()}render();requestAnimationFrame(tick);
+loadWallet();const savedStats=read(STATS_KEY);if(savedStats&&typeof savedStats==='object')stats={...stats,...savedStats,bestBySize:savedStats.bestBySize||{},achievements:Array.isArray(savedStats.achievements)?savedStats.achievements:[]};load();if(!stats.games){stats.games=1;const old=read(LEGACY);if(Number.isFinite(old?.best))stats.bestBySize[4]=Math.max(stats.bestBySize[4]||0,old.best);updateAchievements()}render();requestAnimationFrame(tick);
