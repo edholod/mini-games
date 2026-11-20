@@ -240,3 +240,24 @@ body:has(#flappy-screen:not(.hidden)){overflow:hidden}
 @keyframes notebook-next{0%{opacity:.3;transform:rotateY(-69deg) translateX(-10px);filter:brightness(.83)}50%{opacity:.9;filter:brightness(.94)}100%{opacity:1;transform:rotateY(0) translateX(0);filter:brightness(1)}}
 @keyframes notebook-back{0%{opacity:.25;transform:rotateY(64deg) translateX(10px);filter:brightness(.85)}50%{opacity:.9;filter:brightness(.96)}100%{opacity:1;transform:rotateY(0) translateX(0);filter:brightness(1)}}
 @media(prefers-reduced-motion:reduce){.page-turn-in,.page-turn-back{animation:none!important}}
+
+/* HOME: a single physical notebook page, never a vertically scrolling website. */
+html:has(#home:not(.hidden)),body:has(#home:not(.hidden)){height:100%;overflow:hidden;overscroll-behavior:none}
+.sheet:has(#home:not(.hidden)){height:100dvh;min-height:0;max-height:100dvh;overflow:hidden;display:flex;flex-direction:column;padding-top:calc(8px + env(safe-area-inset-top));padding-bottom:calc(8px + env(safe-area-inset-bottom))}
+.sheet:has(#home:not(.hidden)) header{flex:0 0 auto;padding-bottom:clamp(3px,.7dvh,8px)}
+.sheet:has(#home:not(.hidden)) .brand{font-size:clamp(27px,4.4dvh,43px)}
+.sheet:has(#home:not(.hidden)) .subtitle{font-size:clamp(15px,2.6dvh,22px)}
+.sheet:has(#home:not(.hidden)) .global-wallet{margin-top:clamp(2px,.5dvh,6px);padding:1px 9px;font-size:clamp(19px,2.9dvh,26px)}
+.sheet:has(#home:not(.hidden)) .global-wallet strong{font-size:clamp(21px,3.1dvh,29px)}
+.sheet:has(#home:not(.hidden)) .global-wallet span{font-size:clamp(17px,2.6dvh,22px)}
+#home:not(.hidden){flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:clamp(5px,1.2dvh,13px);padding-top:clamp(3px,.8dvh,10px)}
+#home h1{flex:0 0 auto;font-size:clamp(26px,4.5dvh,39px);margin:0}
+#home .game-card{flex:1 1 0;min-height:0;margin:0;gap:clamp(7px,2vw,12px);padding:clamp(4px,1.1dvh,12px) clamp(7px,2vw,13px)}
+#home .game-card strong{font-size:clamp(25px,4.7dvh,40px);line-height:1}
+#home .game-card small{font-size:clamp(17px,3.05dvh,25px);line-height:1.05}
+#home .card-icon{padding:4px}
+#home .card-icon svg,#home .snake-icon svg,#home .flappy-icon svg{width:clamp(36px,7dvh,60px);height:clamp(36px,7dvh,60px)}
+#home .snake-icon,#home .flappy-icon{flex-basis:clamp(36px,7dvh,60px)}
+#home .arrow{font-size:clamp(20px,3.5dvh,30px)}
+#home .footnote{flex:0 0 auto;margin:0;font-size:clamp(15px,2.4dvh,22px);line-height:1.05}
+@media(max-height:610px){#home .footnote{display:none}#home .game-card small{font-size:clamp(15px,2.8dvh,21px)}}
