@@ -317,3 +317,37 @@ body:has(#tetris-screen:not(.hidden)){overflow:hidden}
 @keyframes home-paper-next{0%{transform:rotateY(0);filter:brightness(1)}46%{transform:rotateY(-68deg);filter:brightness(.82)}55%{transform:rotateY(-60deg);filter:brightness(.88)}100%{transform:rotateY(0);filter:brightness(1)}}
 @keyframes home-paper-back{0%{transform:rotateY(0);filter:brightness(1)}46%{transform:rotateY(68deg);filter:brightness(.82)}55%{transform:rotateY(60deg);filter:brightness(.88)}100%{transform:rotateY(0);filter:brightness(1)}}
 @media(prefers-reduced-motion:reduce){#home.page-flip-forward,#home.page-flip-reverse{animation:none}}
+
+/* Durak: paper playing cards, compact portrait table, no emoji icons. */
+.durak-icon{flex:0 0 62px}
+body:has(#durak-screen:not(.hidden)){overflow:hidden}
+.sheet:has(#durak-screen:not(.hidden)){height:100dvh;min-height:0;max-height:100dvh;overflow:hidden;display:flex;flex-direction:column;padding-top:calc(5px + env(safe-area-inset-top));padding-bottom:calc(5px + env(safe-area-inset-bottom))}
+.sheet:has(#durak-screen:not(.hidden)) header{display:flex;align-items:center;justify-content:space-between;gap:4px;padding-bottom:2px}
+.sheet:has(#durak-screen:not(.hidden)) .brand{font-size:26px}.sheet:has(#durak-screen:not(.hidden)) .subtitle{display:none}
+.sheet:has(#durak-screen:not(.hidden)) .global-wallet{margin:0;padding:1px 7px;font-size:19px}.sheet:has(#durak-screen:not(.hidden)) .global-wallet strong{font-size:21px}
+#durak-screen:not(.hidden){flex:1;min-height:0;display:flex;flex-direction:column;gap:clamp(3px,.6dvh,7px);padding-top:3px}
+#durak-screen .game-title{font-size:clamp(27px,4.1dvh,37px);margin:0}
+.durak-info{display:flex;justify-content:space-around;gap:5px;font:700 clamp(17px,2.5dvh,23px) Caveat,cursive}
+.durak-bot-zone,.durak-player-zone{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:0;flex:0 0 auto}
+.durak-bot-zone>span,.durak-player-zone>span{font:700 clamp(17px,2.5dvh,22px) Caveat,cursive}
+.durak-backs{display:flex;justify-content:center;min-height:clamp(39px,8dvh,64px);max-width:100%;padding:2px 8px}
+.durak-card-back{width:clamp(25px,5.3dvh,39px);height:clamp(37px,7.7dvh,58px);border:2px solid #24477c;border-radius:5px;background:repeating-linear-gradient(45deg,#e7f0f8 0 5px,#f9f7ef 5px 10px);display:flex;align-items:center;justify-content:center;margin-left:-7px;transform:rotate(-2deg);font:700 24px Caveat,cursive;color:#24477c}
+.durak-table{flex:1 1 auto;min-height:80px;border:2px dashed #6d88ac;border-radius:10px;background:rgba(250,248,239,.2);display:flex;flex-direction:column;align-items:center;gap:6px;padding:5px;overflow:hidden}
+.durak-status{font:700 clamp(21px,3.4dvh,29px) Caveat,cursive;text-align:center}
+.durak-pairs{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;align-content:center;gap:clamp(4px,1vw,9px);flex:1;width:100%;min-height:0}
+.durak-pair{position:relative;width:clamp(42px,10vw,64px);height:clamp(63px,15vw,92px);flex:0 0 auto}
+.durak-card-face{width:100%;height:100%;border:2px solid #24477c;border-radius:6px;background:#fffdf5;display:flex;flex-direction:column;justify-content:space-between;padding:3px;box-shadow:1px 2px 0 rgba(36,71,124,.12);color:#24477c;position:relative}
+.durak-card-face.red{color:#c35c65;border-color:#a75863}
+.durak-card-face strong{font:700 clamp(24px,5dvh,37px) Georgia,serif;text-align:center;line-height:1}
+.durak-corner{font:700 clamp(13px,2.6dvh,20px) Caveat,cursive;line-height:.9}.durak-corner small{font-size:.8em;margin-left:2px}.durak-bottom{text-align:right;font:700 16px Caveat,cursive;line-height:.8}
+.durak-cover{position:absolute;inset:0;transform:translate(18%,15%) rotate(12deg);z-index:1}
+.durak-empty{font:700 clamp(20px,3dvh,26px) Caveat,cursive;opacity:.5}
+.durak-hand{display:flex;justify-content:center;align-items:flex-end;width:100%;max-width:100%;min-height:clamp(77px,15dvh,124px);padding:3px 9px 5px}
+.durak-hand-card{padding:0;border:0;background:transparent;min-width:0;flex:0 1 clamp(39px,10vw,69px);width:clamp(39px,10vw,69px);height:clamp(72px,14dvh,108px);margin-left:clamp(-10px,-1.5vw,-3px);cursor:pointer;transition:transform .15s}
+.durak-hand-card .durak-card-face{pointer-events:none}.durak-hand-card.playable{transform:translateY(-6px)}.durak-hand-card.playable .durak-card-face{box-shadow:0 0 0 2px #8aa36b}
+.durak-actions{display:flex;justify-content:center;gap:8px;flex:0 0 auto}
+#durak-screen .durak-actions button{font-size:clamp(18px,2.8dvh,24px);padding:4px 10px}
+.durak-tip{text-align:center;font:700 clamp(16px,2.5dvh,22px) Caveat,cursive;margin:0;line-height:1}
+.durak-result{position:absolute;inset:25% 8% auto;z-index:10;border:3px solid #24477c;border-radius:12px;background:#faf8ef;padding:20px 10px;text-align:center;box-shadow:5px 7px 0 rgba(36,71,124,.12)}
+.durak-result h2{font:700 39px Caveat,cursive;margin:0}.durak-result p{font:700 24px Caveat,cursive}
+@media(max-height:650px){#durak-screen .game-title{display:none}.durak-backs{min-height:35px}.durak-hand{min-height:65px}.durak-hand-card{height:70px}}
