@@ -58,3 +58,5 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .board{position:relative}
 .motion-layer{position:absolute;inset:0;pointer-events:none;z-index:2}
 .moving-tile{display:flex;align-items:center;justify-content:center;will-change:transform;background:transparent}
+
+.upcoming{margin-top:19px;transform:rotate(.7deg);border-style:dashed;cursor:default}.snake-icon{flex:0 0 62px}.soon{color:#bb5266;font-weight:700;margin-top:5px;font-size:21px!important}
