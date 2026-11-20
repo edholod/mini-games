@@ -53,3 +53,8 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .tile[data-value="16384"]{color:#b23e3e;border-color:#b23e3e}
 .tile[data-value="32768"]{color:#176b91;border-color:#176b91}
 .tile[data-value="65536"]{color:#ad6813;border-color:#ad6813}
+
+/* Tile movement layer overlays the 4x4 grid without changing its layout. */
+.board{position:relative}
+.motion-layer{position:absolute;inset:0;pointer-events:none;z-index:2}
+.moving-tile{display:flex;align-items:center;justify-content:center;will-change:transform;background:transparent}
