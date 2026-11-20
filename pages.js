@@ -1,6 +1,6 @@
 'use strict';
 (()=>{
-const ids=['home','game','snake-screen','flappy-screen','tetris-screen'];
+const ids=['home','game','snake-screen','flappy-screen','tetris-screen','durak-screen'];
 let direction='forward',last='home',transitioning=false;
 const visible=()=>ids.find(id=>!document.getElementById(id).classList.contains('hidden'))||'home';
 const sheet=document.querySelector('.sheet');
@@ -15,8 +15,8 @@ function animate(id){
 document.addEventListener('click',e=>{
  const target=e.target.closest('button');
  if(!target)return;
- if(['back','snake-back','flappy-back','tetris-back'].includes(target.id))direction='back';
- else if(['open2048','openSnake','openFlappy','openTetris'].includes(target.id))direction='forward';
+ if(['back','snake-back','flappy-back','tetris-back','durak-back'].includes(target.id))direction='back';
+ else if(['open2048','openSnake','openFlappy','openTetris','openDurak'].includes(target.id))direction='forward';
 },true);
 const observer=new MutationObserver(()=>{
  const current=visible();
