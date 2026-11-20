@@ -84,3 +84,14 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .achievement{display:inline-block;border:2px dashed #8e99aa;color:#7b8799;border-radius:8px;padding:3px 10px;font:700 23px 'Caveat',cursive}
 .achievement.earned{border-style:solid;border-color:#b08413;color:#9a7114}
 @media(prefers-reduced-motion:reduce){.tile,.moving-tile{transition:none!important;animation:none!important}}
+
+/* Snake: hand-drawn ink on the same squared notebook paper */
+.snake-card{margin-top:19px;transform:rotate(.7deg)}
+.snake-board-wrap{width:100%;max-width:450px;aspect-ratio:1;margin:14px auto;position:relative;border:3px solid var(--ink);border-radius:9px 11px 7px 12px;overflow:hidden;touch-action:none}
+#snake-canvas{display:block;width:100%;height:100%;touch-action:none}
+.snake-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;background:rgba(250,248,239,.9);text-align:center;padding:18px}
+.snake-overlay h2{font:700 42px/1 'Caveat',cursive;margin:0}
+.snake-overlay p{font:700 27px/1.1 'Caveat',cursive;margin:5px 0 12px}
+.snake-actions{display:flex;justify-content:center;margin:14px 0}
+.snake-controls{margin:14px 0 22px}
+.snake-controls button:active{transform:scale(.92);background:rgba(77,139,190,.12)}
