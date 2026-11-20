@@ -179,3 +179,18 @@ body:has(#snake-screen:not(.hidden)){overflow:hidden}
 #game .board-wrap{width:min(100%,calc(100dvh - 315px),450px)}
 @media(max-height:680px){#game .board-wrap{width:min(100%,calc(100dvh - 282px),450px)}#game .controls button{height:36px;width:54px}}
 @media(max-height:540px){#game .board-wrap{width:min(100%,calc(100dvh - 233px),450px)}}
+
+/* Maze level editor lives in a full-screen overlay, without scrolling the game. */
+#snake-screen .game-options{align-items:center;gap:5px}
+#snake-screen .game-options label{font-size:clamp(16px,2.3dvh,21px)}
+#snake-screen .game-options select{font-size:clamp(16px,2.3dvh,20px);max-width:125px}
+#snake-editor-open{font-size:clamp(16px,2.3dvh,20px)!important;padding:2px 6px!important}
+.snake-editor{position:fixed;z-index:20;inset:0;display:flex;flex-direction:column;align-items:center;gap:10px;background:var(--paper);background-image:linear-gradient(rgba(77,139,190,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(77,139,190,.2) 1px,transparent 1px);background-size:25px 25px;padding:calc(15px + env(safe-area-inset-top)) 16px calc(15px + env(safe-area-inset-bottom));overflow:hidden}
+.snake-editor .toolbar{width:100%;max-width:480px}
+.snake-editor .toolbar strong{font-size:30px}
+.snake-editor p{font-size:22px;line-height:1.1;text-align:center;margin:0}
+#snake-editor-canvas{display:block;width:min(100%,calc(100dvh - 200px),480px);aspect-ratio:1;border:3px solid var(--ink);border-radius:9px;touch-action:none;flex-shrink:1;min-height:0}
+.editor-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+#snake-canvas{position:relative;z-index:1;opacity:1;visibility:visible}
+#snake-screen .snake-board-wrap{background:rgba(250,248,239,.18)}
+@media(max-height:680px){#snake-screen .snake-board-wrap{width:min(100%,calc(100dvh - 295px),450px)}}
