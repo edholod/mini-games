@@ -194,3 +194,11 @@ body:has(#snake-screen:not(.hidden)){overflow:hidden}
 #snake-canvas{position:relative;z-index:1;opacity:1;visibility:visible}
 #snake-screen .snake-board-wrap{background:rgba(250,248,239,.18)}
 @media(max-height:680px){#snake-screen .snake-board-wrap{width:min(100%,calc(100dvh - 295px),450px)}}
+
+/* Critical iOS fix: the canvas must NEVER sit above the Start/Pause overlay. */
+#snake-canvas{position:static!important;z-index:auto!important;pointer-events:auto}
+#snake-screen .snake-board-wrap{isolation:isolate}
+#snake-overlay{z-index:5;pointer-events:auto}
+#snake-play{position:relative;z-index:6;min-width:125px;min-height:44px}
+#snake-editor{z-index:30;pointer-events:auto}
+#snake-editor-canvas{touch-action:none}
