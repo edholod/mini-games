@@ -64,3 +64,23 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .wallet{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font:700 28px/1.1 'Caveat',cursive;color:#b08413;margin:4px 0 12px}.wallet strong{font-size:34px}.coin-help{color:#24477c;font-size:21px}.undo-btn{display:block;margin:13px 0 0;padding:5px 14px;border:2px solid #b08413;border-radius:8px;background:transparent;color:#8c6712;font:700 27px 'Caveat',cursive}.undo-btn:disabled{opacity:.43;cursor:not-allowed}.undo-btn:not(:disabled):active{transform:scale(.96)}
 
 .global-wallet{display:inline-flex;align-items:center;gap:7px;margin-top:9px;padding:3px 12px;border:2px solid #b08413;border-radius:12px;color:#9c7413;background:rgba(255,250,221,.55);font:700 27px/1.2 'Caveat',cursive}.global-wallet strong{font-size:31px}.global-wallet span{font-size:23px}
+
+/* Flexible notebook grid and game options */
+.board{grid-template-columns:repeat(var(--size,4),minmax(0,1fr));grid-template-rows:repeat(var(--size,4),minmax(0,1fr));gap:clamp(3px,1.5vw,9px);padding:clamp(5px,1.5vw,10px)}
+.board[data-size="3"] .cell{font-size:clamp(32px,9vw,57px)}
+.board[data-size="4"] .cell{font-size:clamp(25px,8vw,48px)}
+.board[data-size="5"] .cell{font-size:clamp(20px,6vw,37px)}
+.board[data-size="6"] .cell{font-size:clamp(16px,5vw,31px)}
+.board[data-size="5"] .tile[data-value="1024"],.board[data-size="5"] .tile[data-value="2048"],.board[data-size="6"] .tile[data-value="1024"],.board[data-size="6"] .tile[data-value="2048"]{font-size:clamp(16px,4.4vw,29px)}
+.board[data-size="6"] .tile[data-value="4096"],.board[data-size="6"] .tile[data-value="8192"],.board[data-size="6"] .tile[data-value="16384"]{font-size:clamp(12px,3.6vw,24px)}
+.game-options{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 15px}
+.game-options label{font:700 25px 'Caveat',cursive;display:flex;align-items:center;gap:6px}
+.game-options select{font:700 23px 'Caveat',cursive;color:var(--ink);border:2px solid var(--ink);border-radius:7px;background:rgba(250,248,239,.7);padding:3px 7px;max-width:150px}
+.game-meta{display:flex;gap:18px;flex-wrap:wrap;font:700 25px 'Caveat',cursive;margin-top:12px}
+.notebook-stats{margin-top:28px;border-top:2px dashed var(--ink);padding-top:10px}
+.notebook-stats h2{font:700 34px 'Caveat',cursive;margin:13px 0 5px}
+#stats{font:700 23px/1.25 'Caveat',cursive}
+#achievements{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.achievement{display:inline-block;border:2px dashed #8e99aa;color:#7b8799;border-radius:8px;padding:3px 10px;font:700 23px 'Caveat',cursive}
+.achievement.earned{border-style:solid;border-color:#b08413;color:#9a7114}
+@media(prefers-reduced-motion:reduce){.tile,.moving-tile{transition:none!important;animation:none!important}}
