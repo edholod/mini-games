@@ -267,3 +267,34 @@ html:has(#home:not(.hidden)),body:has(#home:not(.hidden)){height:100%;overflow:h
 #home .arrow svg{width:clamp(25px,4.4dvh,35px);height:clamp(25px,4.4dvh,35px);filter:none}
 .hand-play{vertical-align:middle;display:inline-block;margin-right:2px}
 #snake-play,#flappy-play,#snake-pause,#flappy-pause,#flappy-revive,#snake-revive{font-family:'Caveat',cursive;font-variant-emoji:text}
+
+/* Tetris — sketchbook, fixed mobile viewport, no page scrolling. */
+.tetris-card{margin-top:0;transform:rotate(.5deg)}.tetris-icon{flex:0 0 62px}
+body:has(#tetris-screen:not(.hidden)){overflow:hidden}
+.sheet:has(#tetris-screen:not(.hidden)){height:100dvh;min-height:0;max-height:100dvh;overflow:hidden;display:flex;flex-direction:column;padding-top:calc(5px + env(safe-area-inset-top));padding-bottom:calc(5px + env(safe-area-inset-bottom))}
+.sheet:has(#tetris-screen:not(.hidden)) header{display:flex;align-items:center;justify-content:space-between;gap:5px;padding-bottom:3px}
+.sheet:has(#tetris-screen:not(.hidden)) .brand{font-size:27px}.sheet:has(#tetris-screen:not(.hidden)) .subtitle{display:none}
+.sheet:has(#tetris-screen:not(.hidden)) .global-wallet{margin:0;padding:1px 8px;font-size:20px}.sheet:has(#tetris-screen:not(.hidden)) .global-wallet strong{font-size:22px}.sheet:has(#tetris-screen:not(.hidden)) .global-wallet span{font-size:17px}
+#tetris-screen:not(.hidden){flex:1;min-height:0;display:flex;flex-direction:column;gap:clamp(4px,.7dvh,9px);padding-top:4px}
+#tetris-screen .game-title{font-size:clamp(26px,4dvh,37px);margin:0}
+.tetris-scorebar{display:flex;justify-content:space-between;gap:5px;flex-shrink:0}
+.tetris-scorebar .score{min-width:0;flex:1;padding:2px 3px}.tetris-scorebar .score span{font-size:clamp(13px,2dvh,18px)}.tetris-scorebar .score strong{font-size:clamp(20px,3.2dvh,30px)}
+.tetris-layout{display:flex;justify-content:center;gap:clamp(6px,2vw,14px);flex:1 1 auto;min-height:0;max-width:430px;width:100%;margin:0 auto}
+.tetris-board-wrap{position:relative;aspect-ratio:1/2;height:100%;max-width:calc(100% - 92px);border:3px solid var(--ink);border-radius:8px;overflow:hidden;isolation:isolate;min-height:0}
+#tetris-canvas{display:block;width:100%;height:100%;touch-action:none}
+.tetris-side{display:flex;flex-direction:column;align-items:stretch;gap:clamp(5px,1dvh,10px);width:clamp(82px,21vw,112px);flex-shrink:0}
+.tetris-next{border:2px dashed var(--ink);border-radius:7px;text-align:center;padding:2px;min-width:0}.tetris-next span{font-size:clamp(16px,2.4dvh,22px)}.tetris-next canvas{width:100%;height:auto;display:block}
+#tetris-screen .tetris-side .restart{font-size:clamp(16px,2.3dvh,22px);padding:4px 2px;line-height:1.05}
+.tetris-overlay{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:7px;background:rgba(250,248,239,.91);text-align:center}
+.tetris-overlay h2{font:700 clamp(26px,4dvh,38px)/1 Caveat,cursive;margin:0}.tetris-overlay p{font:700 clamp(19px,2.9dvh,24px)/1.1 Caveat,cursive;margin:0}
+#tetris-screen .tetris-overlay .restart{font-size:clamp(19px,2.8dvh,25px);padding:5px}
+.tetris-controls{display:flex;justify-content:space-between;gap:5px;max-width:430px;width:100%;margin:0 auto;flex-shrink:0}
+.tetris-controls button{flex:1;min-width:0;border:2px solid var(--ink);border-radius:7px;background:transparent;font:700 clamp(25px,4dvh,34px) Caveat,cursive;height:clamp(39px,6dvh,52px)}
+.tetris-tip{text-align:center;font-size:clamp(15px,2.5dvh,21px);line-height:1.05;margin:0}
+@media(max-height:680px){#tetris-screen .game-title,.tetris-tip{display:none}.tetris-side{gap:4px}.tetris-next canvas{max-height:65px}}
+/* All four game cards must fit within the home notebook page. */
+#home .game-card{flex:1 1 0;min-height:0}
+#home .game-card small{font-size:clamp(15px,2.55dvh,23px)}
+#home .game-card strong{font-size:clamp(23px,4dvh,37px)}
+#home .game-card svg{max-height:clamp(30px,6dvh,52px)}
+@media(max-height:690px){#home .footnote{display:none}}
