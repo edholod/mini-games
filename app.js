@@ -1,7 +1,7 @@
 'use strict';
 const tg=window.Telegram?.WebApp;try{tg?.ready();tg?.expand();tg?.setHeaderColor('#faf8ef');tg?.setBackgroundColor('#faf8ef')}catch(e){}
 const $=id=>document.getElementById(id), KEY='notebook2048-v1';
-let board=Array(16).fill(0),score=0,best=0,won=false,keepPlaying=false,over=false,sound=false,coins=0,undoState=null;const UNDO_COST=5;
+let board=Array(16).fill(0),score=0,best=0,won=false,keepPlaying=false,over=false,sound=false,coins=0,undoState=null;const UNDO_COST=1;
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||'{}');best=Number.isFinite(s.best)?s.best:0;coins=Number.isSafeInteger(s.coins)&&s.coins>=0?s.coins:0;undoState=s.undoState&&Array.isArray(s.undoState.board)&&s.undoState.board.length===16?s.undoState:null;if(Array.isArray(s.board)&&s.board.length===16&&s.board.every(n=>Number.isInteger(n)&&n>=0&&(n===0||(n&(n-1))===0))){board=s.board;score=Number.isFinite(s.score)?s.score:0;won=!!s.won;keepPlaying=!!s.keepPlaying;over=!!s.over;return}}catch(e){}newGame()}
 function save(){try{localStorage.setItem(KEY,JSON.stringify({board,score,best,won,keepPlaying,over,coins,undoState}))}catch(e){}}
 function addTile(){const empty=board.map((v,i)=>v? -1:i).filter(i=>i>=0);if(!empty.length)return;board[empty[Math.floor(Math.random()*empty.length)]]=Math.random()<.9?2:4}
@@ -10,10 +10,10 @@ function render(){const b=$('board');b.replaceChildren();board.forEach((v,i)=>{c
 function merge(line){const a=line.filter(Boolean),out=[];let gain=0;for(let i=0;i<a.length;i++){if(i+1<a.length&&a[i]===a[i+1]){const v=a[i]*2;out.push(v);gain+=v;i++}else out.push(a[i])}while(out.length<4)out.push(0);return {out,gain}}
 function canMove(){if(board.some(v=>!v))return true;for(let r=0;r<4;r++)for(let c=0;c<4;c++){const v=board[r*4+c];if(c<3&&board[r*4+c+1]===v)return true;if(r<3&&board[(r+1)*4+c]===v)return true}return false}
 let animating=false;
-function undoMove(){if(animating||!undoState)return;if(coins<UNDO_COST){alert('Недостаточно монет. Собирай одинаковые плитки, чтобы заработать монеты!');return}const prev=undoState;board=prev.board.slice();score=prev.score;won=prev.won;keepPlaying=prev.keepPlaying;over=prev.over;coins-=UNDO_COST;undoState=null;save();render();}
+function undoMove(){if(animating||!undoState)return;if(coins<UNDO_COST){alert('Недостаточно монет для отмены хода.');return}const prev=undoState;board=prev.board.slice();score=prev.score;won=prev.won;keepPlaying=prev.keepPlaying;over=prev.over;coins-=UNDO_COST;undoState=null;save();render();}
 function move(dir){
  if(animating||over||(won&&!keepPlaying))return;
- const old=board.slice(),tracks=[],next=Array(16).fill(0);let gained=0,merges=0;const snapshot={board:old,score,won,keepPlaying,over};
+ const old=board.slice(),tracks=[],next=Array(16).fill(0);let gained=0;const snapshot={board:old,score,won,keepPlaying,over};
  for(let n=0;n<4;n++){
   const ids=[];for(let k=0;k<4;k++){
    if(dir==='left')ids.push(n*4+k);
@@ -25,7 +25,7 @@ function move(dir){
   for(let k=0;k<active.length;k++){
    const src=active[k],value=old[src],dest=ids[slot];
    if(k+1<active.length&&old[active[k+1]]===value){
-    next[dest]=value*2;gained+=value*2;merges++;
+    next[dest]=value*2;gained+=value*2;
     tracks.push({src,dest,value},{src:active[k+1],dest,value});k++;
    }else{next[dest]=value;tracks.push({src,dest,value})}
    slot++;
@@ -45,7 +45,7 @@ function move(dir){
  }
  cells.forEach(el=>{if(el.classList.contains('tile'))el.style.visibility='hidden'});
  window.setTimeout(()=>{
-  board=next;score+=gained;best=Math.max(score,best);coins+=merges;undoState=snapshot;
+  board=next;score+=gained;best=Math.max(score,best);undoState=snapshot;
   const occupied=new Set(tracks.map(t=>t.dest));addTile();
   if(!won&&board.some(v=>v>=2048))won=true;
   over=!canMove();
