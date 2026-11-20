@@ -261,3 +261,9 @@ html:has(#home:not(.hidden)),body:has(#home:not(.hidden)){height:100%;overflow:h
 #home .arrow{font-size:clamp(20px,3.5dvh,30px)}
 #home .footnote{flex:0 0 auto;margin:0;font-size:clamp(15px,2.4dvh,22px);line-height:1.05}
 @media(max-height:610px){#home .footnote{display:none}#home .game-card small{font-size:clamp(15px,2.8dvh,21px)}}
+
+/* Hand-drawn controls instead of colorful OS emoji buttons. */
+#home .arrow{display:inline-flex;align-items:center;justify-content:center;flex:0 0 35px;margin-left:auto}
+#home .arrow svg{width:clamp(25px,4.4dvh,35px);height:clamp(25px,4.4dvh,35px);filter:none}
+.hand-play{vertical-align:middle;display:inline-block;margin-right:2px}
+#snake-play,#flappy-play,#snake-pause,#flappy-pause,#flappy-revive,#snake-revive{font-family:'Caveat',cursive;font-variant-emoji:text}
