@@ -6,12 +6,12 @@ const settings={easy:{gap:198,speed:105,gravity:650,flap:-255,space:235},normal:
 let difficulty='easy',phase='ready',bird={x:90,y:235,vy:0},pipes=[],score=0,best=0,sound=false,elapsed=0,last=0,revived=false,won=false;
 const saved=read(KEY);if(saved&&typeof saved==='object'){best=Math.max(0,Number(saved.best)||0);if(settings[saved.difficulty])difficulty=saved.difficulty}
 $('flappy-difficulty').value=difficulty;
-function update(){$('flappy-score').textContent=score;$('flappy-best').textContent=best;$('flappy-pause').textContent=phase==='running'?'Ⅱ Пауза':'▶ Продолжить'}
+function update(){$('flappy-score').textContent=score;$('flappy-best').textContent=best;$('flappy-pause').textContent=phase==='running'?'Ⅱ Пауза':'▷ Продолжить'}
 function save(){write(KEY,{best,difficulty})}
 function overlay(title,detail,button){$('flappy-message').textContent=title;$('flappy-detail').textContent=detail;$('flappy-play').textContent=button;$('flappy-revive').classList.toggle('hidden',phase!=='over'||revived);$('flappy-overlay').classList.remove('hidden')}
-function fresh(){phase='ready';bird={x:90,y:H*.45,vy:0};pipes=[];score=0;elapsed=0;revived=false;won=false;update();overlay('Готов к полёту?','Касайся экрана, чтобы взмахнуть','▶ Играть');draw()}
+function fresh(){phase='ready';bird={x:90,y:H*.45,vy:0};pipes=[];score=0;elapsed=0;revived=false;won=false;update();overlay('Готов к полёту?','Касайся экрана, чтобы взмахнуть','▷ Играть');draw()}
 function start(){if(phase==='over')fresh();phase='running';last=performance.now();$('flappy-overlay').classList.add('hidden');update();flap()}
-function pause(){if(phase==='running'){phase='paused';overlay('Пауза','Полетим дальше?','▶ Продолжить')}else if(phase==='paused')start();update()}
+function pause(){if(phase==='running'){phase='paused';overlay('Пауза','Полетим дальше?','▷ Продолжить')}else if(phase==='paused')start();update()}
 function end(){phase='over';best=Math.max(best,score);save();update();overlay('Птичка приземлилась!','Пролетел труб: '+score,'↻ Ещё раз');try{window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred('error')}catch{}}
 let audio;function beep(){if(!sound)return;try{audio??=new(window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.type='sine';o.frequency.value=620;g.gain.setValueAtTime(.02,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.08);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+.08)}catch{}}
 function flap(){if(phase==='ready'){start();return}if(phase!=='running')return;bird.vy=settings[difficulty].flap;beep();try{window.Telegram?.WebApp?.HapticFeedback?.impactOccurred('light')}catch{}}
@@ -32,7 +32,7 @@ function draw(){ctx.clearRect(0,0,W,H);
 function frame(now){const dt=Math.min(.045,Math.max(0,(now-last)/1000));last=now;if(phase==='running'&&!document.hidden)step(dt);draw();requestAnimationFrame(frame)}
 function enter(){if(!$('game').classList.contains('hidden'))$('back').click();if(!$('snake-screen').classList.contains('hidden'))$('snake-back').click();$('home').classList.add('hidden');$('flappy-screen').classList.remove('hidden');last=performance.now()}
 function leave(){if(phase==='running')pause();$('flappy-screen').classList.add('hidden');$('home').classList.remove('hidden')}
-function revive(){if(phase!=='over'||revived)return;const w=read(WALLET)||{},balance=Number(w.balance)||0;if(balance<1){alert('Для продолжения нужна 1 монетка.');return}write(WALLET,{...w,balance:balance-1});document.querySelectorAll('[data-wallet-balance]').forEach(e=>e.textContent=String(balance-1));revived=true;bird.y=H*.43;bird.vy=0;pipes=pipes.filter(p=>p.x>bird.x+80);phase='paused';overlay('Вторая попытка','Счёт сохранён. Нажми продолжить!','▶ Продолжить')}
+function revive(){if(phase!=='over'||revived)return;const w=read(WALLET)||{},balance=Number(w.balance)||0;if(balance<1){alert('Для продолжения нужна 1 монетка.');return}write(WALLET,{...w,balance:balance-1});document.querySelectorAll('[data-wallet-balance]').forEach(e=>e.textContent=String(balance-1));revived=true;bird.y=H*.43;bird.vy=0;pipes=pipes.filter(p=>p.x>bird.x+80);phase='paused';overlay('Вторая попытка','Счёт сохранён. Нажми продолжить!','▷ Продолжить')}
 $('openFlappy').onclick=enter;$('flappy-back').onclick=leave;$('flappy-play').onclick=start;$('flappy-revive').onclick=revive;$('flappy-restart').onclick=()=>{if(phase==='running'&&!confirm('Начать заново?'))return;fresh()};$('flappy-pause').onclick=pause;$('flappy-flap').onclick=flap;
 $('flappy-difficulty').onchange=e=>{difficulty=e.target.value;save();fresh()};$('flappy-sound').onclick=()=>{sound=!sound;$('flappy-sound').textContent=sound?'♪ вкл.':'♪ выкл.'};
 canvas.addEventListener('pointerdown',e=>{e.preventDefault();flap()});document.addEventListener('keydown',e=>{if($('flappy-screen').classList.contains('hidden'))return;if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();flap()}});
