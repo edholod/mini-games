@@ -351,3 +351,6 @@ body:has(#durak-screen:not(.hidden)){overflow:hidden}
 .durak-result{position:absolute;inset:25% 8% auto;z-index:10;border:3px solid #24477c;border-radius:12px;background:#faf8ef;padding:20px 10px;text-align:center;box-shadow:5px 7px 0 rgba(36,71,124,.12)}
 .durak-result h2{font:700 39px Caveat,cursive;margin:0}.durak-result p{font:700 24px Caveat,cursive}
 @media(max-height:650px){#durak-screen .game-title{display:none}.durak-backs{min-height:35px}.durak-hand{min-height:65px}.durak-hand-card{height:70px}}
+
+/* Keep partial notebook pages aligned at top instead of stretching a lone card. */
+#home[data-notebook-page]:not([data-notebook-page="1"]) .game-card:not([hidden]){flex:0 0 clamp(95px,16dvh,155px)}
