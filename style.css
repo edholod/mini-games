@@ -168,3 +168,14 @@ body:has(#snake-screen:not(.hidden)){overflow:hidden}
 #snake-screen .achievement{font-size:19px}
 @media(max-height:680px){#snake-screen .snake-board-wrap{width:min(100%,calc(100dvh - 270px),450px)}#snake-screen .game-title{display:none}#snake-screen .snake-controls button{height:30px}}
 @media(max-height:540px){#snake-screen .snake-board-wrap{width:min(100%,calc(100dvh - 225px),450px)}#snake-screen .game-meta,#snake-screen .notebook-stats{display:none}}
+
+/* 2048: keep moving clones in their own absolute overlay, never in grid flow. */
+#board .motion-layer{position:absolute;inset:0;display:block;pointer-events:none;z-index:3;overflow:visible}
+#board .moving-tile{position:absolute!important;display:flex;align-items:center;justify-content:center;will-change:transform;transform-origin:center;pointer-events:none}
+#board>.cell{min-height:0}
+#game .controls{gap:14px}
+#game .controls button{width:clamp(54px,8.2dvh,70px);height:clamp(37px,5.5dvh,49px);font-size:clamp(27px,4dvh,35px);border-width:2.5px}
+#game .controls>div{gap:4px}
+#game .board-wrap{width:min(100%,calc(100dvh - 315px),450px)}
+@media(max-height:680px){#game .board-wrap{width:min(100%,calc(100dvh - 282px),450px)}#game .controls button{height:36px;width:54px}}
+@media(max-height:540px){#game .board-wrap{width:min(100%,calc(100dvh - 233px),450px)}}
