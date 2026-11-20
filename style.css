@@ -62,3 +62,5 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .upcoming{margin-top:19px;transform:rotate(.7deg);border-style:dashed;cursor:default}.snake-icon{flex:0 0 62px}.soon{color:#bb5266;font-weight:700;margin-top:5px;font-size:21px!important}
 
 .wallet{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font:700 28px/1.1 'Caveat',cursive;color:#b08413;margin:4px 0 12px}.wallet strong{font-size:34px}.coin-help{color:#24477c;font-size:21px}.undo-btn{display:block;margin:13px 0 0;padding:5px 14px;border:2px solid #b08413;border-radius:8px;background:transparent;color:#8c6712;font:700 27px 'Caveat',cursive}.undo-btn:disabled{opacity:.43;cursor:not-allowed}.undo-btn:not(:disabled):active{transform:scale(.96)}
+
+.global-wallet{display:inline-flex;align-items:center;gap:7px;margin-top:9px;padding:3px 12px;border:2px solid #b08413;border-radius:12px;color:#9c7413;background:rgba(255,250,221,.55);font:700 27px/1.2 'Caveat',cursive}.global-wallet strong{font-size:31px}.global-wallet span{font-size:23px}
