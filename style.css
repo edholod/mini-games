@@ -95,3 +95,40 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .snake-actions{display:flex;justify-content:center;margin:14px 0}
 .snake-controls{margin:14px 0 22px}
 .snake-controls button:active{transform:scale(.92);background:rgba(77,139,190,.12)}
+
+/* Compact, app-like 2048 screen: no vertical page scrolling */
+body:has(#game:not(.hidden)){overflow:hidden}
+.sheet:has(#game:not(.hidden)){height:100dvh;min-height:0;overflow:hidden;display:flex;flex-direction:column;padding-top:calc(5px + env(safe-area-inset-top));padding-bottom:calc(5px + env(safe-area-inset-bottom))}
+.sheet:has(#game:not(.hidden)) header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-shrink:0;padding:0 0 3px}
+.sheet:has(#game:not(.hidden)) .brand{font-size:27px}
+.sheet:has(#game:not(.hidden)) .subtitle{display:none}
+.sheet:has(#game:not(.hidden)) .global-wallet{margin:0;padding:1px 8px;font-size:21px}
+.sheet:has(#game:not(.hidden)) .global-wallet strong{font-size:23px}
+.sheet:has(#game:not(.hidden)) .global-wallet span{font-size:18px}
+#game:not(.hidden){padding-top:4px;min-height:0;flex:1;display:flex;flex-direction:column;gap:clamp(2px,.5dvh,7px);align-items:stretch}
+#game .toolbar{flex-shrink:0}
+#game .text-btn{font-size:clamp(17px,2.8dvh,24px)}
+#game .game-title{font-size:clamp(25px,4dvh,37px);margin:0}
+#game .game-options{margin:0;gap:8px;flex-shrink:0}
+#game .game-options label{font-size:clamp(18px,2.7dvh,23px)}
+#game .game-options select{font-size:clamp(17px,2.6dvh,22px);padding:0 5px}
+#game .scorebar{justify-content:flex-start;gap:9px;flex-shrink:0}
+#game .score{min-width:67px;padding:0 6px}
+#game .score span{font-size:clamp(14px,2dvh,18px)}
+#game .score strong{font-size:clamp(22px,3.3dvh,30px)}
+#game .restart{font-size:clamp(18px,2.8dvh,24px);padding:4px 9px}
+#game .game-meta{margin:0;gap:12px;font-size:clamp(17px,2.7dvh,23px);flex-shrink:0}
+#game .undo-btn{margin:0;align-self:flex-start;padding:1px 9px;font-size:clamp(18px,2.7dvh,24px);flex-shrink:0}
+#game .instructions,#game .hint,#game>.footnote{display:none}
+#game .board-wrap{width:min(100%,calc(100dvh - 330px),450px);max-width:450px;min-width:0;flex:0 1 auto;margin:0 auto}
+#game .controls{gap:12px;flex-shrink:0;margin:0}
+#game .controls>div{gap:3px}
+#game .controls button{height:clamp(29px,4.8dvh,43px);width:clamp(43px,7dvh,52px);font-size:clamp(22px,3.5dvh,29px)}
+#game .notebook-stats{margin:0;padding:0;border:0;flex-shrink:0;font-size:19px}
+#game .notebook-stats summary{cursor:pointer;font-size:clamp(17px,2.6dvh,23px)}
+#game .notebook-stats[open]{position:absolute;z-index:5;bottom:calc(8px + env(safe-area-inset-bottom));left:39px;right:14px;max-height:55dvh;overflow:auto;padding:12px;background:var(--paper);border:2px solid var(--ink);border-radius:8px;box-shadow:0 3px 15px #24477c33}
+#game .notebook-stats h2{font-size:26px;margin:5px 0}
+#game .notebook-stats #stats{font-size:20px}
+#game .notebook-stats .achievement{font-size:19px}
+@media(max-height:680px){#game .board-wrap{width:min(100%,calc(100dvh - 295px),450px)}#game .game-title{display:none}#game .controls button{height:30px}}
+@media(max-height:540px){#game .board-wrap{width:min(100%,calc(100dvh - 245px),450px)}#game .game-meta{display:none}#game .notebook-stats{display:none}}
