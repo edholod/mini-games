@@ -5,10 +5,10 @@ const canvas=$('snake-canvas'),ctx=canvas.getContext('2d');
 const vectors={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}};
 const read=k=>{try{return JSON.parse(localStorage.getItem(k)||'null')}catch{return null}};
 const write=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
-let n=16,speed='normal',snake=[],previous=[],dir='right',queue=[],apple=null,score=0,seconds=0,phase='ready',last=0,acc=0,clockAcc=0,sound=false;
+let n=12,speed='slow',snake=[],previous=[],dir='right',queue=[],apple=null,score=0,seconds=0,phase='ready',last=0,acc=0,clockAcc=0,sound=false;
 let stats={games:0,best:0,totalApples:0,longest:3,achievements:[]};
 const savedStats=read(STATS);if(savedStats&&typeof savedStats==='object')stats={...stats,...savedStats,achievements:Array.isArray(savedStats.achievements)?savedStats.achievements:[]};
-function duration(){return {slow:190,normal:135,fast:92}[speed]||135}
+function duration(){return {slow:280,normal:210,fast:145}[speed]||210}
 function fmt(t){return String(Math.floor(t/60)).padStart(2,'0')+':'+String(Math.floor(t%60)).padStart(2,'0')}
 function fresh(){const m=Math.floor(n/2);snake=[{x:m,y:m},{x:m-1,y:m},{x:m-2,y:m}];previous=snake.map(p=>({...p}));dir='right';queue=[];score=0;seconds=0;acc=0;clockAcc=0;phase='ready';apple=spawn();renderInfo();showOverlay('Змейка готова!','Собирай яблоки и не кусай хвост','▶ Играть');draw(1)}
 function spawn(){const occupied=new Set(snake.map(p=>p.x+','+p.y)),free=[];for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(!occupied.has(x+','+y))free.push({x,y});return free.length?free[Math.floor(Math.random()*free.length)]:null}
@@ -29,7 +29,7 @@ function turn(next){if(!vectors[next]||phase==='over')return;const lastDir=queue
 function step(){
  if(queue.length)dir=queue.shift();
  const v=vectors[dir],head={x:snake[0].x+v.x,y:snake[0].y+v.y},eat=apple&&head.x===apple.x&&head.y===apple.y;
- if(head.x<0||head.y<0||head.x>=n||head.y>=n){end();return}
+ head.x=(head.x+n)%n;head.y=(head.y+n)%n;
  const body=eat?snake:snake.slice(0,-1);
  if(body.some(p=>p.x===head.x&&p.y===head.y)){end();return}
  previous=snake.map(p=>({...p}));snake.unshift(head);if(!eat)snake.pop();
@@ -38,19 +38,20 @@ function step(){
 }
 let audio;function beep(){try{audio??=new(window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.frequency.value=570;o.type='sine';g.gain.setValueAtTime(.025,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.09);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+.09)}catch{}}
 function draw(alpha){
- const w=canvas.width,h=canvas.height,cell=w/n;ctx.clearRect(0,0,w,h);
- ctx.lineWidth=1.2;ctx.strokeStyle='rgba(77,139,190,.19)';
- for(let i=0;i<=n;i++){ctx.beginPath();ctx.moveTo(i*cell,0);ctx.lineTo(i*cell,h);ctx.moveTo(0,i*cell);ctx.lineTo(w,i*cell);ctx.stroke()}
- if(apple){const x=(apple.x+.5)*cell,y=(apple.y+.53)*cell;ctx.fillStyle='#d56770';ctx.strokeStyle='#ad3e50';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(x,y,cell*.29,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.strokeStyle='#367c43';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x,y-cell*.25);ctx.quadraticCurveTo(x+cell*.19,y-cell*.48,x+cell*.28,y-cell*.35);ctx.stroke()}
+ const w=canvas.width,cell=w/n;ctx.clearRect(0,0,w,w);
+ // The notebook's blue grid remains visible behind the transparent playfield.
+ if(apple){const x=(apple.x+.5)*cell,y=(apple.y+.52)*cell;ctx.fillStyle='#d56770';ctx.strokeStyle='#ad3e50';ctx.lineWidth=2.8;ctx.beginPath();ctx.arc(x,y,cell*.3,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.strokeStyle='#367c43';ctx.lineWidth=3.5;ctx.beginPath();ctx.moveTo(x,y-cell*.24);ctx.quadraticCurveTo(x+cell*.18,y-cell*.48,x+cell*.28,y-cell*.34);ctx.stroke()}
  const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
  const t=reduced?1:Math.max(0,Math.min(1,alpha));
- snake.forEach((p,i)=>{
-  const old=previous[i]||previous[previous.length-1]||p;
-  const x=(old.x+(p.x-old.x)*t+.5)*cell,y=(old.y+(p.y-old.y)*t+.5)*cell;
-  const radius=cell*(i===0?.38:.34);
-  ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);ctx.fillStyle=i===0?'#24477c':'#2f7394';ctx.fill();ctx.lineWidth=2;ctx.strokeStyle='#183f67';ctx.stroke();
-  if(i===0){const d=vectors[dir],px=-d.y,py=d.x;ctx.fillStyle='#faf8ef';for(const side of [-1,1]){ctx.beginPath();ctx.arc(x+d.x*cell*.13+px*side*cell*.15,y+d.y*cell*.13+py*side*cell*.15,cell*.055,0,Math.PI*2);ctx.fill()}}
- });
+ const points=snake.map((p,i)=>{const old=previous[i]||previous[previous.length-1]||p;const adjacent=Math.abs(p.x-old.x)+Math.abs(p.y-old.y)<=1;return{x:((adjacent?old.x+(p.x-old.x)*t:p.x)+.5)*cell,y:((adjacent?old.y+(p.y-old.y)*t:p.y)+.5)*cell}});
+ // A single continuous rounded ink stroke avoids overlapping circle outlines.
+ ctx.strokeStyle='#286d92';ctx.lineWidth=cell*.56;ctx.lineCap='round';ctx.lineJoin='round';
+ for(let i=0;i<points.length-1;i++){const a=points[i],b=points[i+1];if(Math.abs(a.x-b.x)>cell*1.6||Math.abs(a.y-b.y)>cell*1.6)continue;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}
+ const head=points[0],d=vectors[dir],px=-d.y,py=d.x;
+ ctx.fillStyle='#24477c';ctx.beginPath();ctx.arc(head.x,head.y,cell*.38,0,Math.PI*2);ctx.fill();
+ // White eyes and a red nose clearly show the direction of travel.
+ ctx.fillStyle='#faf8ef';for(const side of [-1,1]){ctx.beginPath();ctx.arc(head.x+d.x*cell*.13+px*side*cell*.18,head.y+d.y*cell*.13+py*side*cell*.18,cell*.078,0,Math.PI*2);ctx.fill()}
+ ctx.fillStyle='#d56770';ctx.beginPath();ctx.arc(head.x+d.x*cell*.35,head.y+d.y*cell*.35,cell*.09,0,Math.PI*2);ctx.fill();
 }
 function frame(now){const delta=Math.min(100,Math.max(0,now-last));last=now;if(phase==='running'&&!document.hidden){acc+=delta;clockAcc+=delta;seconds+=delta/1000;const interval=duration();if(acc>=interval){acc%=interval;step()}if(clockAcc>=500){clockAcc=0;renderInfo()}}draw(phase==='running'?acc/duration():1);requestAnimationFrame(frame)}
 function enter(){if(!$('game').classList.contains('hidden')){const b=$('back');b.click()}$('home').classList.add('hidden');$('snake-screen').classList.remove('hidden');last=performance.now();draw(1)}
