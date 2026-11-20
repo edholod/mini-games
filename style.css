@@ -298,3 +298,10 @@ body:has(#tetris-screen:not(.hidden)){overflow:hidden}
 #home .game-card strong{font-size:clamp(23px,4dvh,37px)}
 #home .game-card svg{max-height:clamp(30px,6dvh,52px)}
 @media(max-height:690px){#home .footnote{display:none}}
+
+/* Tetris level picker, compact enough for a single notebook page. */
+.tetris-level-options{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-shrink:0;font:700 clamp(17px,2.5dvh,23px) Caveat,cursive}
+.tetris-level-options label{display:flex;align-items:center;gap:5px;white-space:nowrap}
+#tetris-start-level{font:700 clamp(18px,2.6dvh,23px) Caveat,cursive;border:2px solid var(--ink);border-radius:7px;background:var(--paper);color:var(--ink);padding:1px 5px;max-width:82px}
+#tetris-level-progress{text-align:right;font-size:clamp(15px,2.2dvh,21px)}
+@media(max-height:650px){#tetris-level-progress{font-size:15px}}
