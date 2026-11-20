@@ -67,7 +67,7 @@ function move(dir){
  const grid=$('board'),cells=Array.from(grid.children),rect=grid.getBoundingClientRect(),layer=document.createElement('div');layer.className='motion-layer';grid.append(layer);
  const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
  const duration=reduced?0:175;
- for(const t of tracks){const from=cells[t.src].getBoundingClientRect(),to=cells[t.dest].getBoundingClientRect(),el=cells[t.src].cloneNode(true);el.classList.add('moving-tile');Object.assign(el.style,{left:(from.left-rect.left-grid.clientLeft)+'px',top:(from.top-rect.top-grid.clientTop)+'px',width:from.width+'px',height:from.height+'px',margin:'0'});layer.append(el);if(duration&&el.animate)el.animate([{transform:'translate(0,0)'},{transform:'translate('+(to.left-from.left)+'px,'+(to.top-from.top)+'px)'}],{duration,easing:'cubic-bezier(.2,.7,.25,1)',fill:'forwards'})}
+ for(const t of tracks){const from=cells[t.src].getBoundingClientRect(),to=cells[t.dest].getBoundingClientRect(),el=cells[t.src].cloneNode(true);el.classList.add('moving-tile');Object.assign(el.style,{position:'absolute',left:(from.left-rect.left-grid.clientLeft)+'px',top:(from.top-rect.top-grid.clientTop)+'px',width:from.width+'px',height:from.height+'px',margin:'0',boxSizing:'border-box',transform:'none'});layer.append(el);if(duration&&el.animate)el.animate([{transform:'translate(0,0)'},{transform:'translate('+(to.left-from.left)+'px,'+(to.top-from.top)+'px)'}],{duration,easing:'cubic-bezier(.2,.7,.25,1)',fill:'forwards'})}
  cells.forEach(el=>{if(el.classList.contains('tile'))el.style.visibility='hidden'});
  setTimeout(()=>{
   board=next;score+=gained;moves++;stats.totalMoves++;undoState=snapshot;addTile();if(!won&&board.some(v=>v>=2048))won=true;
